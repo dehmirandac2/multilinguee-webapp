@@ -1,22 +1,19 @@
-import { Button, Container } from "@mui/material";
-import { FormWrapper, Wrapper, Title, Input, Link } from "./styles";
+import { Container } from '@mui/material';
+import HeaderLogin from '../../components/Header/HeaderLogin';
+import Form from './components/Form';
+import { Wrapper } from './styles';
 
 function Login() {
   return (
-    <Container>
-      <Wrapper>
-        <div>img</div>
-        <FormWrapper>
-          <Title variant="h3">Bem-vindo ao Multilinguee</Title>
-          <Input label="Email" variant="outlined" />
-          <Input label="Senha" variant="outlined" />
-          <Link href="#">Esqueceu sua senha?</Link>
-          <Button variant="contained" size="large" color="secondary">
-            Entrar
-          </Button>
-        </FormWrapper>
-      </Wrapper>
-    </Container>
+    <>
+      <HeaderLogin />
+      <Container>
+        <Wrapper>
+          <img src="/images/login-illustration.png" width="400" alt="girl studying" />
+          <Form />
+        </Wrapper>
+      </Container>
+    </>
   );
 }
 
