@@ -1,0 +1,47 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "react", "testing-library", "jest-dom", "import"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "airbnb-typescript",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "single", { "avoidEscape": true, "allowTemplateLiterals": false }],
+    "comma-dangle": "off",
+    "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
+    "no-multiple-empty-lines": "error",
+    "object-curly-newline": "off",
+    "eol-last": "error",
+    "jest-dom/prefer-in-document": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "import/prefer-default-export": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/display-name": "off",
+    "jsx-a11y/anchor-is-valid": "off"
+  }
+}
