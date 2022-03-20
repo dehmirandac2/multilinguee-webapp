@@ -7,7 +7,7 @@ function Form() {
       <Title variant="h4">Bem-vindo ao Multilinguee!</Title>
       <FormWrapper>
         <Input label="Email" variant="outlined" />
-        <Input label="Senha" variant="outlined" />
+        <Input label="Senha" variant="outlined" type="password" />
         <Link href="#">Esqueceu sua senha?</Link>
         <Button variant="contained" size="large" color="secondary">
           Entrar
