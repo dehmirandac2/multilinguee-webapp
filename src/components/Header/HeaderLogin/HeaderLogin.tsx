@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Wrapper } from './styles';
 
-function HeaderLogin({showButton = true}) {
+function HeaderLogin({ showButton = true }) {
   const navigate = useNavigate();
 
   return (
@@ -12,11 +12,11 @@ function HeaderLogin({showButton = true}) {
         <a href="#" onClick={() => navigate('/login')}>
           <img src="/images/logo-multilinguee.png" width="300" alt="Multilinguee logo" />
         </a>
-        {showButton && 
+        {showButton && (
           <Button variant="contained" size="large" onClick={() => navigate('/create-account')}>
             Criar conta
           </Button>
-        }
+        )}
       </Wrapper>
     </Container>
   );

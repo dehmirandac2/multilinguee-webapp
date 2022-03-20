@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const FormWrapper = styled.div`
- display: flex;
+  display: flex;
   flex-direction: column;
   width: 80%;
 `;

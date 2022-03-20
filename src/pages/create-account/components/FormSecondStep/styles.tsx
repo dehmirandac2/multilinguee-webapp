@@ -21,7 +21,7 @@ export const Button = styled(MuiButton)`
   }
 `;
 
-export const WrapperWekHour  = styled.div`
+export const WrapperWekHour = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -34,7 +34,6 @@ export const Day = styled(Fab)`
     margin-right: 20px;
   }
 `;
-
 
 export const TextArea = styled(TextField)`
   && {
