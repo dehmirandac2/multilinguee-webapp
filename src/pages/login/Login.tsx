@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import HeaderLogin from '../../components/Header/HeaderLogin';
+import HeaderLogin from '@components/Header/HeaderLogin';
 import Form from './components/Form';
 import { Wrapper } from './styles';
 
