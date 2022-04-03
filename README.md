@@ -12,6 +12,7 @@ Projeto frontend para o trabalho de conclusão da pós-graduação em Engenharia
 
 - [React](https://reactjs.org/) - Biblioteca Javascript
 - [Typescript](https://www.typescriptlang.org/) - Superset de JavaScript
+- [Graphql](https://graphql.org/) - Linguagem de query para API
 - [Jest](https://jestjs.io/) - Framework para testes em JavaScript
 - [Styled Components](https://styled-components.com//) - Biblioteca para escrever CSS em arquivos Javascript
 - [Material UI](https://mui.com/) - UI em React
