@@ -1,6 +1,9 @@
 import { ThemeProvider } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ApolloProvider } from '@apollo/client';
+
+import client from '@libraries/Apollo';
 
 import Routes from './Routes';
 import theme from './theme';
@@ -10,7 +13,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <Routes />
+      <ApolloProvider client={client}>
+        <Routes />
+      </ApolloProvider>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

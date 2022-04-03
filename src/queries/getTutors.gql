@@ -1,0 +1,12 @@
+query getTutors {
+  getTutors {
+    id
+    name
+    about
+    languages
+    reviews {
+      stars
+      total
+    }
+  }
+}

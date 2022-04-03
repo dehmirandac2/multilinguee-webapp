@@ -2,7 +2,8 @@
   "compilerOptions": {
     "paths": {
       "@components/*": ["./src/components/*"],
-      "@typing/*": ["./src/typing/*"]
+      "@typing/*": ["./src/typing/*"],
+      "@libraries/*": ["./src/libraries/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

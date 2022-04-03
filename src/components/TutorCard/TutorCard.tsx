@@ -4,37 +4,46 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { StyledRating, WrapperRating, Card, CardActions, WrapperTitle } from './styles';
 
-import { CountriesList } from '@typing/CountriesList';
+import { LanguagesList } from '@typing/LanguagesList';
 
 interface ITutorCard {
   data: {
-    avatar: string;
+    id: number;
     name: string;
-    description: string;
-    rating: number;
-    favorite: boolean;
-    reviews: number;
-    country: CountriesList;
+    about: string;
+    languages: LanguagesList[];
+    reviews: {
+      stars: number;
+      total: number;
+    };
   };
 }
 
-function TutorCard({ data: { avatar, name, description, rating, favorite, reviews, country } }: ITutorCard) {
+function TutorCard({ data: { name, about, reviews, languages } }: ITutorCard) {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <CardHeader
-          avatar={<Avatar>{avatar}</Avatar>}
+          avatar={<Avatar />}
           title={
             <WrapperTitle>
               {name}{' '}
-              <img src={`/images/flags/${country}.png`} width="15" alt="bandeira" title={`bandeira ${country}`} />
+              {languages.map((language) => (
+                <img
+                  key={language}
+                  src={`/images/flags/${language}.png`}
+                  width="15"
+                  alt="bandeira"
+                  title={`bandeira ${language}`}
+                />
+              ))}
             </WrapperTitle>
           }
           subheader={
             <WrapperRating>
-              <Rating size="small" name="read-only" value={rating} readOnly />
+              <Rating size="small" name="read-only" value={reviews?.stars} readOnly />
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {reviews} reviews
+                {reviews?.total} reviews
               </Typography>
             </WrapperRating>
           }
@@ -42,13 +51,13 @@ function TutorCard({ data: { avatar, name, description, rating, favorite, review
 
         <StyledRating
           max={1}
-          defaultValue={favorite ? 1 : 0}
+          defaultValue={0}
           icon={<FavoriteIcon fontSize="inherit" />}
           emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
         />
 
         <Typography sx={{ fontSize: 14 }} color="text.secondary">
-          {description}
+          {about}
         </Typography>
       </CardContent>
       <CardActions>
