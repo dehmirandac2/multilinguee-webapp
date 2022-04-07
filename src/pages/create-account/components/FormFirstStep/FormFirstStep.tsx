@@ -1,7 +1,11 @@
 import { Subtitle, Input, Button } from './styles';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
-function Form() {
+interface Props {
+  onSubmit: () => void;
+}
+
+function Form({ onSubmit }: Props) {
   return (
     <>
       <div>
@@ -19,7 +23,7 @@ function Form() {
         <FormControlLabel value="aluno" control={<Radio />} label="Aluno" />
         <FormControlLabel value="professor" control={<Radio />} label="Professor" />
       </RadioGroup>
-      <Button variant="contained" color="secondary" size="large">
+      <Button variant="contained" color="secondary" size="large" onClick={onSubmit}>
         Cadastrar
       </Button>
     </>

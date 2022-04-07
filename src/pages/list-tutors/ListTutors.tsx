@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Header from '@components/Header/Header';
 import HeaderAlert from '@components/Header/HeaderAlert';
 import TutorCard from '@components/TutorCard';

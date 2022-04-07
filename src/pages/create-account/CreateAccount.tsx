@@ -3,8 +3,16 @@ import HeaderLogin from '@components/Header/HeaderLogin';
 import FormFirstStep from './components/FormFirstStep';
 import FormSecondStep from './components/FormSecondStep';
 import { Wrapper, FormWrapper, Title } from './styles';
+import { useMutation } from '@apollo/client';
+import { loader } from 'graphql.macro';
 
-function Login() {
+const CREATE_USER = loader('../../queries/createUser.gql');
+
+function CreateAccount() {
+  const [createUser, { loading }] = useMutation(CREATE_USER);
+
+  const handleCreate = () => {};
+
   return (
     <>
       <HeaderLogin showButton={false} />
@@ -12,8 +20,8 @@ function Login() {
         <Wrapper>
           <FormWrapper>
             <Title variant="h4">Cadastre-se no Multilinguee!</Title>
-            {/* <FormFirstStep /> */}
-            <FormSecondStep />
+            <FormFirstStep onSubmit={handleCreate} />
+            {/* <FormSecondStep /> */}
           </FormWrapper>
         </Wrapper>
       </Container>
@@ -21,4 +29,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default CreateAccount;
