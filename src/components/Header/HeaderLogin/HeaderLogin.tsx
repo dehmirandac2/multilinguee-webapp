@@ -13,7 +13,7 @@ function HeaderLogin({ showButton = true }) {
           <img src="/images/logo-multilinguee.png" width="300" alt="Multilinguee logo" />
         </a>
         {showButton && (
-          <Button variant="contained" size="large" onClick={() => navigate('/create-account')}>
+          <Button variant="contained" size="large" onClick={() => navigate('/create-user')}>
             Criar conta
           </Button>
         )}

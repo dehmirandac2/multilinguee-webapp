@@ -3,9 +3,10 @@ import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 interface Props {
   onSubmit: () => void;
+  isLoading: boolean;
 }
 
-function Form({ onSubmit }: Props) {
+function Form({ onSubmit, isLoading }: Props) {
   return (
     <>
       <div>

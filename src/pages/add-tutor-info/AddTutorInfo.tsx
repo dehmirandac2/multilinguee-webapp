@@ -1,6 +1,5 @@
 import { Container } from '@mui/material';
 import HeaderLogin from '@components/Header/HeaderLogin';
-import FormFirstStep from './components/FormFirstStep';
 import FormSecondStep from './components/FormSecondStep';
 import { Wrapper, FormWrapper, Title } from './styles';
 import { useMutation } from '@apollo/client';
@@ -8,8 +7,13 @@ import { loader } from 'graphql.macro';
 
 const CREATE_USER = loader('../../queries/createUser.gql');
 
-function CreateAccount() {
-  const [createUser, { loading }] = useMutation(CREATE_USER);
+function AddTutorInfo() {
+  const [createUser, { loading }] = useMutation(CREATE_USER, {
+    onCompleted: (resp) => {
+      if (resp.createUser.type === 'tutor') {
+      }
+    },
+  });
 
   const handleCreate = () => {};
 
@@ -20,8 +24,7 @@ function CreateAccount() {
         <Wrapper>
           <FormWrapper>
             <Title variant="h4">Cadastre-se no Multilinguee!</Title>
-            <FormFirstStep onSubmit={handleCreate} />
-            {/* <FormSecondStep /> */}
+            <FormSecondStep />
           </FormWrapper>
         </Wrapper>
       </Container>
@@ -29,4 +32,4 @@ function CreateAccount() {
   );
 }
 
-export default CreateAccount;
+export default AddTutorInfo;

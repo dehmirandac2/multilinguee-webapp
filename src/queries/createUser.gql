@@ -1,5 +1,5 @@
 mutation createUser($userInput: UserInput!) {
   createUser(userInput: $userInput) {
-    id
+    type
   }
 }
