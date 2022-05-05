@@ -1,13 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { FormControlLabel, Radio as MuiRadio } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
 import { useMutation } from '@apollo/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { loader } from 'graphql.macro';
 
 import Input from '@components/Form/Input';
 import Radio from '@components/Form/Radio';
 
 import { Subtitle, Button } from './styles';
+import { schema } from './validation';
 
 const CREATE_USER = loader('../../../../queries/createUser.gql');
 
@@ -28,6 +31,7 @@ function Form() {
     defaultValues: {
       type: 'student',
     },
+    resolver: yupResolver(schema),
   });
 
   const navigate = useNavigate();
@@ -37,7 +41,7 @@ function Form() {
       if (resp.createUser.type === 'tutor') {
         navigate('/add-tutor-info');
       } else {
-        navigate('/login');
+        navigate('/list-tutors');
       }
     },
   });

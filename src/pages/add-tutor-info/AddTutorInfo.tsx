@@ -1,9 +1,10 @@
 import { Container } from '@mui/material';
 import HeaderLogin from '@components/Header/HeaderLogin';
-import FormSecondStep from './components/FormSecondStep';
 import { Wrapper, FormWrapper, Title } from './styles';
 import { useMutation } from '@apollo/client';
 import { loader } from 'graphql.macro';
+
+import Form from './components/Form';
 
 const CREATE_USER = loader('../../queries/createUser.gql');
 
@@ -24,7 +25,7 @@ function AddTutorInfo() {
         <Wrapper>
           <FormWrapper>
             <Title variant="h4">Cadastre-se no Multilinguee!</Title>
-            <FormSecondStep />
+            <Form />
           </FormWrapper>
         </Wrapper>
       </Container>

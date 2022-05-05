@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import HeaderLogin from '@components/Header/HeaderLogin';
 
-import FormFirstStep from './components/FormFirstStep';
+import Form from './components/Form';
 import { Wrapper, FormWrapper, Title } from './styles';
 
 function CreateUser() {
@@ -12,7 +12,7 @@ function CreateUser() {
         <Wrapper>
           <FormWrapper>
             <Title variant="h4">Cadastre-se no Multilinguee!</Title>
-            <FormFirstStep />
+            <Form />
           </FormWrapper>
         </Wrapper>
       </Container>

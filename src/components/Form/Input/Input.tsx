@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Control, Controller, FieldName, FieldValues } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 import { MainInput } from './styles';
 
@@ -8,16 +8,24 @@ interface Props {
   label: string;
   name: string;
   type?: string;
+  error?: string;
 }
 
-const Input = forwardRef(({ control, label, name, ...rest }: Props) => {
-  return (
-    <Controller
-      name={name}
-      render={({ field }) => <MainInput {...field} variant="outlined" label={label} {...rest} />}
-      control={control}
-    />
-  );
-});
+const Input = forwardRef(({ control, label, name, error, ...rest }: Props) => (
+  <Controller
+    name={name}
+    render={({ field, fieldState }) => (
+      <MainInput
+        {...field}
+        error={!!fieldState?.error?.message}
+        helperText={fieldState?.error?.message}
+        variant="outlined"
+        label={label}
+        {...rest}
+      />
+    )}
+    control={control}
+  />
+));
 
 export default Input;

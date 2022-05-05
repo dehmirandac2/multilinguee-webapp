@@ -2,7 +2,7 @@ import { Subtitle, TextArea, WrapperHour, Button, Day, WrapperWekHour } from './
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import HourSelect from '@components/HourSelect';
 
-function FormSecondStep() {
+function Form() {
   const weekMap = {
     monday: 'Seg',
     tuesday: 'Ter',
@@ -49,4 +49,4 @@ function FormSecondStep() {
   );
 }
 
-export default FormSecondStep;
+export default Form;
