@@ -12,7 +12,7 @@ export default function MainRoutes() {
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create-user" element={<CreateUser />} />
-        <Route path="/add-tutor-info" element={<AddTutorInfo />} />
+        <Route path="/add-tutor-info/:id" element={<AddTutorInfo />} />
         <Route path="/list-tutors" element={<ListTutors />} />
       </Routes>
     </Router>

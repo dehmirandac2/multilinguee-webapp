@@ -1,5 +1,5 @@
 mutation createTutor($tutorInput: TutorInput!) {
   createTutor(tutorInput: $tutorInput) {
-    type
+    id
   }
 }

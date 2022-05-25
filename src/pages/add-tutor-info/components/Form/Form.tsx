@@ -10,17 +10,22 @@ import Checkbox from '@components/Form/Checkbox';
 
 import { schema } from './validation';
 import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CREATE_TUTOR = loader('../../../../queries/createTutor.gql');
 
 interface CreateTutor {
   about: string;
   languages: [];
+  classDays: IClassDays;
 }
 
 interface IWeekMap {
   [key: string]: string;
+}
+
+interface IClassDays {
+  [key: string]: { init: string; end: string };
 }
 
 function Form() {
@@ -33,6 +38,8 @@ function Form() {
     saturday: 'Sab',
     sunday: 'Dom',
   };
+
+  const { id } = useParams();
 
   const {
     handleSubmit,
@@ -51,10 +58,40 @@ function Form() {
     },
   });
 
+  const getNewLanguages = (languages: []) => {
+    return languages.reduce((acc, obj) => {
+      const language: string = Object.keys(obj)[0];
+      if (obj[language] === true) {
+        acc.push(language);
+      }
+      return acc;
+    }, [] as string[]);
+  };
+
+  const getNewClassDays = (classDays: IClassDays) => {
+    return Object.keys(classDays).reduce((acc, key) => {
+      const { init, end } = classDays[key];
+      if (init !== undefined && end !== undefined) {
+        acc[key as keyof IClassDays] = { init, end };
+      }
+      return acc;
+    }, {} as IClassDays);
+  };
+
   const onSubmit = (data: CreateTutor) => {
+    const { languages = [], classDays = {} } = data || {};
+    const newLanguages: string[] = getNewLanguages(languages);
+
+    const newClassDays = getNewClassDays(classDays);
+
     createTutor({
       variables: {
-        tutorInput: data,
+        tutorInput: {
+          ...data,
+          id,
+          languages: newLanguages,
+          classDays: newClassDays,
+        },
       },
     });
   };
@@ -89,7 +126,7 @@ function Form() {
           </Day>
           <WrapperHour>
             <HourSelect control={control} name={`classDays.${day}.init`} />
-            <HourSelect control={control} name={`classDays.${day}.finish`} />
+            <HourSelect control={control} name={`classDays.${day}.end`} />
           </WrapperHour>
         </WrapperWekHour>
       ))}

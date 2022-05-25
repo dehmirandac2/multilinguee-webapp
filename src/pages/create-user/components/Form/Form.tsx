@@ -39,7 +39,7 @@ function Form() {
   const [createUser, { loading }] = useMutation(CREATE_USER, {
     onCompleted: (resp) => {
       if (resp.createUser.type === 'tutor') {
-        navigate('/add-tutor-info');
+        navigate(`/add-tutor-info/${resp.createUser.id}`);
       } else {
         navigate('/list-tutors');
       }
