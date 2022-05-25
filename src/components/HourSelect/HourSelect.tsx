@@ -1,6 +1,12 @@
-import { MenuItem, Select } from '@mui/material';
+import { MenuItem } from '@mui/material';
+import Select from '@components/Form/Select';
 
-function HourSelect() {
+interface Props {
+  control: any;
+  name: string;
+}
+
+function HourSelect({ control, name }: Props) {
   const hoursList = [
     '06:00am',
     '07:00am',
@@ -23,7 +29,7 @@ function HourSelect() {
   ];
 
   return (
-    <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Age" value={10}>
+    <Select control={control} label="Hora" name={name}>
       {hoursList.map((hour) => (
         <MenuItem key={hour} value={hour}>
           {hour}

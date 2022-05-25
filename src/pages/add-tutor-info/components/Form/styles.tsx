@@ -34,10 +34,3 @@ export const Day = styled(Fab)`
     margin-right: 20px;
   }
 `;
-
-export const TextArea = styled(TextField)`
-  && {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-`;

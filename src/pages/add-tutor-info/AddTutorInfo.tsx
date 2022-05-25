@@ -6,18 +6,7 @@ import { loader } from 'graphql.macro';
 
 import Form from './components/Form';
 
-const CREATE_USER = loader('../../queries/createUser.gql');
-
 function AddTutorInfo() {
-  const [createUser, { loading }] = useMutation(CREATE_USER, {
-    onCompleted: (resp) => {
-      if (resp.createUser.type === 'tutor') {
-      }
-    },
-  });
-
-  const handleCreate = () => {};
-
   return (
     <>
       <HeaderLogin showButton={false} />

@@ -1,5 +1,5 @@
 import { forwardRef, ReactNode } from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { RadioGroup } from '@mui/material';
 
 interface Props {
