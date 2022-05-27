@@ -2,11 +2,10 @@ query getTutors {
   getTutors {
     id
     name
+    surname
     about
     languages
-    reviews {
-      stars
-      total
-    }
+    stars
+    totalReviews
   }
 }

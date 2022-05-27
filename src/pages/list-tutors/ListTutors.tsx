@@ -5,8 +5,6 @@ import TutorCard from '@components/TutorCard';
 import { Typography, Container } from '@mui/material';
 import { loader } from 'graphql.macro';
 
-import { LanguagesList } from '@typing/LanguagesList';
-
 import { CardsWrapper } from './styles';
 
 const GET_TUTORS = loader('../../queries/getTutors.gql');
@@ -14,12 +12,11 @@ const GET_TUTORS = loader('../../queries/getTutors.gql');
 interface Tutor {
   id: number;
   name: string;
+  surname: string;
   about: string;
-  languages: LanguagesList[];
-  reviews: {
-    stars: number;
-    total: number;
-  };
+  languages: string;
+  stars: number;
+  totalReviews: number;
 }
 
 function ListTutors() {

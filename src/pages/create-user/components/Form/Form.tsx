@@ -41,7 +41,7 @@ function Form() {
       if (resp.createUser.type === 'tutor') {
         navigate(`/add-tutor-info/${resp.createUser.id}`);
       } else {
-        navigate('/list-tutors');
+        navigate('/login');
       }
     },
   });

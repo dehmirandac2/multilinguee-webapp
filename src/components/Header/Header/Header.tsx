@@ -22,7 +22,7 @@ function Header() {
           <IconButton color="secondary" aria-label="upload picture" component="span">
             <SettingsIcon />
           </IconButton>
-          <Avatar>H</Avatar>
+          <Avatar onClick={() => navigate('/profile')}>MF</Avatar>
         </WrapperButtons>
       </Container>
     </Wrapper>

@@ -4,6 +4,7 @@ import Login from './pages/login';
 
 import ListTutors from './pages/list-tutors';
 import AddTutorInfo from './pages/add-tutor-info';
+import Profile from './pages/profile';
 
 export default function MainRoutes() {
   return (
@@ -14,6 +15,7 @@ export default function MainRoutes() {
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/add-tutor-info/:id" element={<AddTutorInfo />} />
         <Route path="/list-tutors" element={<ListTutors />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

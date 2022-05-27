@@ -22,5 +22,6 @@ export const WrapperButtons = styled.div`
 export const Avatar = styled(MuiAvatar)`
   && {
     margin-left: 10px;
+    cursor: pointer;
   }
 `;

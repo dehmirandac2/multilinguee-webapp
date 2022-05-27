@@ -53,8 +53,8 @@ function Form() {
   const navigate = useNavigate();
 
   const [createTutor, { loading }] = useMutation(CREATE_TUTOR, {
-    onCompleted: (resp) => {
-      console.log('>>>done', resp);
+    onCompleted: () => {
+      navigate('/login');
     },
   });
 
@@ -110,11 +110,11 @@ function Form() {
         Quais línguas gostaria de ensinar?
       </Subtitle>
       <FormGroup>
-        <Checkbox control={control} name="languages[0].english" value="english" label="Inglês" />
-        <Checkbox control={control} name="languages[1].spanish" value="spanish" label="Espanhol" />
-        <Checkbox control={control} name="languages[2].french" value="french" label="Francês" />
-        <Checkbox control={control} name="languages[3].german" value="german" label="Alemão" />
-        <Checkbox control={control} name="languages[4].italian" value="italian" label="Italiano" />
+        <Checkbox control={control} name="languages[0].en" value="en" label="Inglês" />
+        <Checkbox control={control} name="languages[1].es" value="es" label="Espanhol" />
+        <Checkbox control={control} name="languages[2].fr" value="fr" label="Francês" />
+        <Checkbox control={control} name="languages[3].ge" value="ge" label="Alemão" />
+        <Checkbox control={control} name="languages[4].it" value="it" label="Italiano" />
       </FormGroup>
       <Subtitle variant="body1" gutterBottom>
         Dias e horários disponíveis para aula:
@@ -130,7 +130,7 @@ function Form() {
           </WrapperHour>
         </WrapperWekHour>
       ))}
-      <Button variant="contained" color="secondary" size="large" type="submit">
+      <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading}>
         Cadastrar
       </Button>
     </form>

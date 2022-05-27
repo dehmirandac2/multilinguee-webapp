@@ -4,22 +4,19 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { StyledRating, WrapperRating, Card, CardActions, WrapperTitle } from './styles';
 
-import { LanguagesList } from '@typing/LanguagesList';
-
 interface ITutorCard {
   data: {
     id: number;
     name: string;
+    surname: string;
     about: string;
-    languages: LanguagesList[];
-    reviews: {
-      stars: number;
-      total: number;
-    };
+    languages: string;
+    stars: number;
+    totalReviews: number;
   };
 }
 
-function TutorCard({ data: { name, about, reviews, languages } }: ITutorCard) {
+function TutorCard({ data: { name, surname, about, stars, totalReviews, languages } }: ITutorCard) {
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -27,8 +24,8 @@ function TutorCard({ data: { name, about, reviews, languages } }: ITutorCard) {
           avatar={<Avatar />}
           title={
             <WrapperTitle>
-              {name}{' '}
-              {languages.map((language) => (
+              {name} {surname}
+              {languages.split(',').map((language) => (
                 <img
                   key={language}
                   src={`/images/flags/${language}.png`}
@@ -41,9 +38,9 @@ function TutorCard({ data: { name, about, reviews, languages } }: ITutorCard) {
           }
           subheader={
             <WrapperRating>
-              <Rating size="small" name="read-only" value={reviews?.stars} readOnly />
+              <Rating size="small" name="read-only" value={stars} readOnly />
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {reviews?.total} reviews
+                {totalReviews} reviews
               </Typography>
             </WrapperRating>
           }
