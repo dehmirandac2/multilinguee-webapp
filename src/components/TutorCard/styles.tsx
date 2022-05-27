@@ -36,7 +36,9 @@ export const WrapperRating = styled.div`
 export const Card = styled(MuiCard)`
   && {
     position: relative;
-    /* width: 400px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 
