@@ -9,6 +9,7 @@ interface Props {
   name: string;
   type?: string;
   error?: string;
+  full?: boolean;
 }
 
 const Input = forwardRef(({ control, label, name, error, ...rest }: Props) => (
