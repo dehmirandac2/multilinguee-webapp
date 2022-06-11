@@ -2,12 +2,12 @@ import { useQuery } from '@apollo/client';
 import Header from '@components/Header/Header';
 import HeaderAlert from '@components/Header/HeaderAlert';
 import TutorCard from '@components/TutorCard';
-import { Typography, Container } from '@mui/material';
+import { Typography, Container, Skeleton } from '@mui/material';
 import { loader } from 'graphql.macro';
 
-import { CardsWrapper } from './styles';
+import { CardsWrapper, SkeletonWrapper } from './styles';
 
-const GET_TUTORS = loader('../../queries/getTutors.gql');
+const GET_TUTORS = loader('../../../queries/getTutors.gql');
 
 interface Tutor {
   id: number;
@@ -24,9 +24,9 @@ function ListTutors() {
 
   return (
     <>
-      <Header />
+      <Header typeUser="student" />
       <HeaderAlert
-        text="Sua próxima aula será no dia: 20/11/2021 (sexta-feira)"
+        text="Sua próxima aula será no dia: 20/08/2022 (sexta-feira)"
         buttonText="Gerenciar aula"
         onClick={() => {}}
       />
@@ -35,9 +35,14 @@ function ListTutors() {
           Encontre seu professor
         </Typography>
         <CardsWrapper>
-          {data?.getTutors.map((tutor: Tutor) => (
-            <TutorCard key={tutor.id} data={tutor} />
-          ))}
+          {data ? (
+            data?.getTutors.map((tutor: Tutor) => <TutorCard key={tutor.id} data={tutor} />)
+          ) : (
+            <SkeletonWrapper>
+              <Skeleton variant="rectangular" height={180} />
+              <Skeleton variant="rectangular" height={180} />
+            </SkeletonWrapper>
+          )}
         </CardsWrapper>
       </Container>
     </>

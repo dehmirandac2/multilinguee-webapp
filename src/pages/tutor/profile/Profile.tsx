@@ -1,11 +1,11 @@
 import { Button, Container, Typography, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import Heart from '@mui/icons-material/FavoriteBorder';
 import Book from '@mui/icons-material/MenuBook';
 import Money from '@mui/icons-material/AttachMoney';
 
 import Header from '@components/Header/Header';
 import HeaderAlert from '@components/Header/HeaderAlert';
+import NextClass from '@components/NextClass';
 
 import { WrapperProfile, Navigation } from './styles';
 
@@ -14,7 +14,7 @@ function Profile() {
 
   return (
     <>
-      <Header />
+      <Header typeUser="tutor" />
       <HeaderAlert
         text="Sua próxima aula será no dia: 20/11/2021 (sexta-feira)"
         buttonText="Gerenciar aula"
@@ -24,20 +24,18 @@ function Profile() {
         <WrapperProfile>
           <Avatar sx={{ width: 56, height: 56 }}>MF</Avatar>
           <Typography variant="h5" mt={6} mb={5} gutterBottom>
-            Marina Ferreira
+            João Silva
           </Typography>
         </WrapperProfile>
         <Navigation>
-          <Button startIcon={<Heart />} variant="contained" size="large" onClick={() => navigate('/favorites')}>
-            Professores favoritos
-          </Button>
-          <Button startIcon={<Book />} variant="contained" size="large" onClick={() => navigate('/classes')}>
-            Aulas anteriores
+          <Button startIcon={<Book />} variant="contained" size="large" onClick={() => navigate('/favorites')}>
+            Detalhes de aulas anteriores
           </Button>
           <Button startIcon={<Money />} variant="contained" size="large" onClick={() => navigate('/payment')}>
-            Meu plano
+            Solicitar pagamento
           </Button>
         </Navigation>
+        <NextClass />
       </Container>
     </>
   );

@@ -8,3 +8,11 @@ export const CardsWrapper = styled.div`
   grid-auto-flow: column;
   margin-bottom: 70px;
 `;
+
+export const SkeletonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  & > span {
+    width: 48%;
+  }
+`;

@@ -2,9 +2,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreateUser from './pages/create-user';
 import Login from './pages/login';
 
-import ListTutors from './pages/list-tutors';
+import ListTutors from './pages/student/list-tutors';
 import AddTutorInfo from './pages/add-tutor-info';
-import Profile from './pages/profile';
+import StudentProfile from './pages/student/profile';
+import TutorProfile from './pages/tutor/profile';
 
 export default function MainRoutes() {
   return (
@@ -14,8 +15,11 @@ export default function MainRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/create-user" element={<CreateUser />} />
         <Route path="/add-tutor-info/:id" element={<AddTutorInfo />} />
-        <Route path="/list-tutors" element={<ListTutors />} />
-        <Route path="/profile" element={<Profile />} />
+
+        <Route path="/student/list-tutors" element={<ListTutors />} />
+        <Route path="/student/profile" element={<StudentProfile />} />
+
+        <Route path="/tutor/profile" element={<TutorProfile />} />
       </Routes>
     </Router>
   );
