@@ -2,12 +2,16 @@ import { useForm } from 'react-hook-form';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
+import { loader } from 'graphql.macro';
 
 import Input from '@components/Form/Input';
 
 import { schema } from './validation';
 import { FormWrapper, Title, Link, Wrapper } from './styles';
 import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+
+const LOGIN = loader('../../../../queries/login.gql');
 
 interface Login {
   email: string;
@@ -24,22 +28,25 @@ function Form() {
   });
 
   const [showError, setShowError] = useState(false);
-
   const navigate = useNavigate();
 
-  const onSubmit = (data: Login) => {
-    const { email, password } = data;
-
-    // tutor
-    if (email === 'joao.silva@gmail.com' && password === 'password') {
-      navigate('/tutor/profile');
-    }
-    // student
-    else if (email === 'marina.ferreira@gmail.com' && password === 'password') {
-      navigate('/student/list-tutors');
-    } else {
+  const [login, { loading }] = useMutation(LOGIN, {
+    onCompleted: (resp) => {
+      setShowError(false);
+      localStorage.setItem('token', resp.login.token);
+      if (resp.login.type === 'tutor') {
+        navigate('/tutor/profile');
+      } else if (resp.login.type === 'student') {
+        navigate('/student/list-tutors');
+      }
+    },
+    onError: () => {
       setShowError(true);
-    }
+    },
+  });
+
+  const onSubmit = (data: Login) => {
+    login({ variables: data });
   };
 
   return (
@@ -50,7 +57,7 @@ function Form() {
           <Input control={control} label="Email" name="email" full />
           <Input control={control} label="Senha" name="password" type="password" full />
           <Link href="#">Esqueceu sua senha?</Link>
-          <Button variant="contained" size="large" color="secondary" type="submit">
+          <Button variant="contained" size="large" color="secondary" type="submit" disabled={loading}>
             Entrar
           </Button>
         </FormWrapper>
