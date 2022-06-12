@@ -33,6 +33,12 @@ function Header({ typeUser }: { typeUser: TypeUser }) {
       homeUrl: '/tutor/profile',
     },
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <Wrapper>
       <Container>
@@ -46,7 +52,7 @@ function Header({ typeUser }: { typeUser: TypeUser }) {
           <IconButton color="secondary" aria-label="settings" component="span">
             <SettingsIcon />
           </IconButton>
-          <IconButton color="secondary" aria-label="logout" component="span" onClick={() => navigate('/login')}>
+          <IconButton color="secondary" aria-label="logout" component="span" onClick={handleLogout}>
             <LogoutIcon />
           </IconButton>
           <Avatar onClick={() => navigate(config[typeUser].profileUrl)}>MF</Avatar>
