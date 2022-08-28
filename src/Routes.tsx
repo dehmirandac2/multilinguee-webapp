@@ -9,6 +9,7 @@ import ListTutors from './pages/student/list-tutors';
 import AddTutorInfo from './pages/add-tutor-info';
 import StudentProfile from './pages/student/profile';
 import TutorProfile from './pages/tutor/profile';
+import EditUser from './pages/student/edit-user/EditUser';
 
 import Page404 from './pages/404';
 
@@ -26,6 +27,7 @@ export default function MainRoutes() {
 
         <Route path="/student/list-tutors" element={accessControl(<ListTutors />)} />
         <Route path="/student/profile" element={accessControl(<StudentProfile />)} />
+        <Route path="/student/edit-user" element={accessControl(<EditUser />)}></Route>
 
         <Route path="/tutor/profile" element={accessControl(<TutorProfile />)} />
 
