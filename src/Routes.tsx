@@ -8,6 +8,8 @@ import AccessControl from '@components/AccessControl';
 import ListTutors from './pages/student/list-tutors';
 import AddTutorInfo from './pages/add-tutor-info';
 import StudentProfile from './pages/student/profile';
+import EditUser from './pages/student/edit-user/EditUser';
+import StudentTutorProfile from './pages/student/tutor-profile';
 import TutorProfile from './pages/tutor/profile';
 
 import Page404 from './pages/404';
@@ -26,6 +28,8 @@ export default function MainRoutes() {
 
         <Route path="/student/list-tutors" element={accessControl(<ListTutors />)} />
         <Route path="/student/profile" element={accessControl(<StudentProfile />)} />
+        <Route path="/student/edit-user" element={accessControl(<EditUser />)}></Route>
+        <Route path="/student/tutor-profile/:id" element={accessControl(<StudentTutorProfile />)}></Route>
 
         <Route path="/tutor/profile" element={accessControl(<TutorProfile />)} />
 

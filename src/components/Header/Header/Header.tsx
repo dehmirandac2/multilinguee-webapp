@@ -11,10 +11,12 @@ type Config = {
   student: {
     profileUrl: string;
     homeUrl: string;
+    configUrl: string;
   };
   tutor: {
     profileUrl: string;
     homeUrl: string;
+    configUrl: string;
   };
 };
 
@@ -27,10 +29,12 @@ function Header({ typeUser }: { typeUser: TypeUser }) {
     student: {
       profileUrl: '/student/profile',
       homeUrl: '/student/list-tutors',
+      configUrl: '/student/edit-user',
     },
     tutor: {
       profileUrl: '/tutor/profile',
       homeUrl: '/tutor/profile',
+      configUrl: '/tutor/edit-user',
     },
   };
 
@@ -49,7 +53,12 @@ function Header({ typeUser }: { typeUser: TypeUser }) {
           <IconButton color="secondary" aria-label="notification" component="span">
             <NotificationsIcon />
           </IconButton>
-          <IconButton color="secondary" aria-label="settings" component="span">
+          <IconButton
+            onClick={() => navigate(config[typeUser].configUrl)}
+            color="secondary"
+            aria-label="settings"
+            component="span"
+          >
             <SettingsIcon />
           </IconButton>
           <IconButton color="secondary" aria-label="logout" component="span" onClick={handleLogout}>
