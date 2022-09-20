@@ -1,4 +1,5 @@
 import { CardContent, Typography, Button, Avatar, Rating, CardHeader } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -16,7 +17,9 @@ interface ITutorCard {
   };
 }
 
-function TutorCard({ data: { name, surname, about, stars, totalReviews, languages } }: ITutorCard) {
+function TutorCard({ data: { id, name, surname, about, stars, totalReviews, languages } }: ITutorCard) {
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -58,7 +61,7 @@ function TutorCard({ data: { name, surname, about, stars, totalReviews, language
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" size="large">
+        <Button variant="contained" size="large" onClick={() => navigate(`/student/tutor-profile/${id}`)}>
           Agendar aula
         </Button>
       </CardActions>

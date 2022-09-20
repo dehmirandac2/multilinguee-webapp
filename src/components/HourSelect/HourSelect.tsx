@@ -4,9 +4,10 @@ import Select from '@components/Form/Select';
 interface Props {
   control: any;
   name: string;
+  label?: string;
 }
 
-function HourSelect({ control, name }: Props) {
+function HourSelect({ control, name, label }: Props) {
   const hoursList = [
     '06:00am',
     '07:00am',
@@ -29,7 +30,7 @@ function HourSelect({ control, name }: Props) {
   ];
 
   return (
-    <Select control={control} label="Hora" name={name}>
+    <Select control={control} label={label} name={name}>
       {hoursList.map((hour) => (
         <MenuItem key={hour} value={hour}>
           {hour}
