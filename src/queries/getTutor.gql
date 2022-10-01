@@ -1,0 +1,11 @@
+query getTutor($id: ID!) {
+  getTutor(id: $id) {
+    id
+    name
+    surname
+    about
+    languages
+    stars
+    totalReviews
+  }
+}

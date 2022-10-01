@@ -1,21 +1,22 @@
 import { useState } from 'react';
-
 import { useForm } from 'react-hook-form';
 import { Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import { pt } from 'react-date-range/dist/locale';
 import { useMutation } from '@apollo/client';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { loader } from 'graphql.macro';
+import { Calendar } from 'react-date-range';
 
-import Input from '@components/Form/Input';
+import { yupResolver } from '@hookform/resolvers/yup';
 import TextArea from '@components/Form/TextArea';
 import HourSelect from '@components/HourSelect';
 
-import { Button, WrapperHour } from '../styles';
+import { Button, WrapperHour, WrapperForm } from '../styles';
 import { schema } from './validation';
 
-interface CreateUser {
+const CREATE_CLASS = loader('../../../queries/createClass.gql');
+
+interface CreateClass {
   name: string;
   surname: string;
   email: string;
@@ -23,59 +24,77 @@ interface CreateUser {
   type: 'student' | 'tutor';
 }
 
-function Form() {
+interface IProps {
+  tutorId: string;
+}
+
+function Form({ tutorId }: IProps) {
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<CreateUser>({
+  } = useForm<CreateClass>({
     resolver: yupResolver(schema),
   });
 
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const navigate = useNavigate();
 
-  // const [createUser, { loading }] = useMutation(CREATE_USER, {
-  //   onCompleted: (resp) => {
-  //     setShowSuccess(true);
-  //   },
-  //   onError: () => {
-  //     setShowError(true);
-  //   },
-  // });
-  const loading = false;
+  const [createClass, { loading }] = useMutation(CREATE_CLASS, {
+    onCompleted: (resp) => {
+      setShowSuccess(true);
+    },
+    onError: () => {
+      setShowError(true);
+    },
+  });
 
-  const onSubmit = (data: CreateUser) => {
+  const onSubmit = (data: CreateClass) => {
     setShowError(false);
     setShowSuccess(false);
-    // createUser({
-    //   variables: {
-    //     userInput: data,
-    //   },
-    // });
+    createClass({
+      variables: {
+        classInput: {
+          ...data,
+          tutorId,
+          studentId: 31,
+          date: currentDate,
+        },
+      },
+    });
+  };
+
+  const handleDate = (selectedDate: any) => {
+    setCurrentDate(selectedDate);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <WrapperHour>
-          <HourSelect label="Início" control={control} name={'classDays.init'} />
-          <HourSelect label="Fim" control={control} name={'classDays.end'} />
-        </WrapperHour>
-      </div>
-      <div>
-        <TextArea control={control} id="topic" label="Em que gostaria de trabalhar" name="topic" />
-      </div>
-      <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading}>
-        Agendar aula
-      </Button>
+      <WrapperForm>
+        <Calendar locale={pt} onChange={handleDate} />
+        <div>
+          <div>
+            <WrapperHour>
+              <HourSelect label="Início" control={control} name={'init'} />
+              <HourSelect label="Fim" control={control} name={'end'} />
+            </WrapperHour>
+          </div>
+          <div>
+            <TextArea control={control} id="topic" label="Em que gostaria de trabalhar" name="topic" />
+          </div>
+          <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading}>
+            Agendar aula
+          </Button>
+        </div>
+      </WrapperForm>
       <Snackbar open={showError} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-        <Alert severity="error">Erro ao atualizar o perfil. Tente novamente</Alert>
+        <Alert severity="error">Erro ao agendar a aula. Tente novamente</Alert>
       </Snackbar>
       <Snackbar open={showSuccess} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-        <Alert severity="error">Perfil atualizado com sucesso</Alert>
+        <Alert severity="success">Aula agendada com sucesso</Alert>
       </Snackbar>
     </form>
   );

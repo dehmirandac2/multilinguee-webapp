@@ -1,12 +1,13 @@
 import { Typography } from '@mui/material';
 
-import { Calendar } from 'react-date-range';
-import { pt } from 'react-date-range/dist/locale';
-
 import { CardTitleWrapper, Card, CardContent } from './styles';
 import Form from './components/Form';
 
-function NextClass() {
+interface IProps {
+  tutorId: string;
+}
+
+function NextClass({ tutorId }: IProps) {
   return (
     <div>
       <Typography variant="h4" mt={6} mb={5} gutterBottom>
@@ -23,8 +24,7 @@ function NextClass() {
         </CardTitleWrapper>
 
         <CardContent>
-          <Calendar date={new Date()} locale={pt} />
-          <Form />
+          <Form tutorId={tutorId} />
         </CardContent>
       </Card>
     </div>
