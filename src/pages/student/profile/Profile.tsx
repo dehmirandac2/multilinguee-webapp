@@ -39,7 +39,7 @@ function Profile() {
             Meu plano
           </Button>
         </Navigation>
-        <NextClass />
+        <NextClass tutorId="1" />
       </Container>
     </>
   );

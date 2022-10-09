@@ -35,7 +35,7 @@ function Profile() {
             Solicitar pagamento
           </Button>
         </Navigation>
-        <NextClass />
+        <NextClass tutorId="1" />
       </Container>
     </>
   );

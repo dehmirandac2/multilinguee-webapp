@@ -18,7 +18,7 @@ export const CardContent = styled(MUICardContent)`
   padding: 30px 30px 0 30px;
 
   & > form {
-    width: 50%;
+    width: 100%;
   }
 `;
 
@@ -42,6 +42,13 @@ export const WrapperHour = styled.div`
   & > div {
     min-width: 150px;
     margin-right: 20px;
+    width: 50%;
+  }
+`;
+
+export const WrapperForm = styled.div`
+  display: flex;
+  & > div {
     width: 50%;
   }
 `;

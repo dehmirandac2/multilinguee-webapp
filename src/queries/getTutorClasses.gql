@@ -1,0 +1,8 @@
+query GetTutorClasses($tutorId: ID!) {
+  getTutorClasses(tutorId: $tutorId) {
+    id
+    date
+    init
+    end
+  }
+}
