@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Snackbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { pt } from 'react-date-range/dist/locale';
 import { useMutation } from '@apollo/client';
 import { loader } from 'graphql.macro';
@@ -10,6 +9,8 @@ import { Calendar } from 'react-date-range';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextArea from '@components/Form/TextArea';
 import HourSelect from '@components/HourSelect';
+
+import getDecodedToken from '@utils/token';
 
 import { Button, WrapperHour, WrapperForm } from '../styles';
 import { schema } from './validation';
@@ -40,8 +41,7 @@ function Form({ tutorId }: IProps) {
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  const navigate = useNavigate();
+  const { id: studentId } = getDecodedToken();
 
   const [createClass, { loading }] = useMutation(CREATE_CLASS, {
     onCompleted: (resp) => {
@@ -60,7 +60,7 @@ function Form({ tutorId }: IProps) {
         classInput: {
           ...data,
           tutorId,
-          studentId: 31,
+          studentId,
           date: currentDate,
         },
       },

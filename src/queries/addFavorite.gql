@@ -1,0 +1,5 @@
+mutation Mutation($favoriteInput: FavoriteInput!) {
+  addFavorite(favoriteInput: $favoriteInput) {
+    id
+  }
+}

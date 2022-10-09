@@ -3,7 +3,8 @@
     "paths": {
       "@components/*": ["./src/components/*"],
       "@typing/*": ["./src/typing/*"],
-      "@libraries/*": ["./src/libraries/*"]
+      "@libraries/*": ["./src/libraries/*"],
+      "@utils/*": ["./src/utils/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

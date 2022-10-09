@@ -1,0 +1,9 @@
+query GetStudentNextClass($studentId: ID!) {
+  getStudentNextClass(studentId: $studentId) {
+    id
+    date
+    init
+    end
+    topic
+  }
+}
