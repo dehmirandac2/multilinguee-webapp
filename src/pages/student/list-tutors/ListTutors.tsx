@@ -3,6 +3,8 @@ import Header from '@components/Header/Header';
 import HeaderAlert from '@components/Header/HeaderAlert';
 import TutorCard from '@components/TutorCard';
 import { Typography, Container, Skeleton } from '@mui/material';
+import getDecodedToken from '@utils/token';
+
 import { loader } from 'graphql.macro';
 
 import { CardsWrapper, SkeletonWrapper } from './styles';
@@ -20,7 +22,8 @@ interface Tutor {
 }
 
 function ListTutors() {
-  const { data } = useQuery(GET_TUTORS);
+  const { id: studentId } = getDecodedToken();
+  const { data } = useQuery(GET_TUTORS, { variables: { studentId } });
 
   return (
     <>

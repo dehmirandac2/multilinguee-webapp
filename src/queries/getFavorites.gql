@@ -1,5 +1,5 @@
-query getTutors {
-  getTutors {
+query GetFavorites($studentId: String) {
+  getFavorites(studentId: $studentId) {
     id
     name
     surname
@@ -7,6 +7,5 @@ query getTutors {
     languages
     stars
     totalReviews
-    isFavorite
   }
 }
