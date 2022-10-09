@@ -8,6 +8,7 @@ import { loader } from 'graphql.macro';
 import Header from '@components/Header/Header';
 import HeaderAlert from '@components/Header/HeaderAlert';
 import NextClass from '@components/NextClass';
+import getDecodedToken from '@utils/token';
 
 import { WrapperProfile, Navigation, WrapperHeader } from './styles';
 
@@ -17,7 +18,9 @@ function TutorProfile() {
   const navigate = useNavigate();
   const paths = useLocation().pathname.split('/');
   const id = paths[paths.length - 1];
-  const { loading, data } = useQuery(GET_TUTOR, { variables: { id } });
+  const { id: studentId } = getDecodedToken();
+
+  const { loading, data } = useQuery(GET_TUTOR, { variables: { tutorInput: { tutorId: id, studentId } } });
 
   return (
     <>

@@ -1,5 +1,5 @@
-query getTutor($id: ID!) {
-  getTutor(id: $id) {
+query getTutor($tutorInput: GetTutorInput!) {
+  getTutor(tutorInput: $tutorInput) {
     id
     name
     surname
@@ -7,5 +7,6 @@ query getTutor($id: ID!) {
     languages
     stars
     totalReviews
+    isFavorite
   }
 }
