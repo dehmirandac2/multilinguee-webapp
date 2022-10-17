@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Alert, Snackbar } from '@mui/material';
 import { pt } from 'react-date-range/dist/locale';
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 import { Calendar } from 'react-date-range';
 
@@ -16,23 +16,32 @@ import { Button, WrapperHour, WrapperForm } from '../styles';
 import { schema } from './validation';
 
 const CREATE_CLASS = loader('../../../queries/createClass.gql');
+const GET_TUTOR_CLASSES = loader('../../../queries/getTutorClasses.gql');
 
 interface CreateClass {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  type: 'student' | 'tutor';
+  date: Date;
+  end: string;
+  init: string;
+  studentId: string;
+  topic: string;
+  tutorId: string;
+}
+interface Classes {
+  id: string;
+  date: Date;
+  init: string;
+  end: string;
 }
 
-interface IProps {
+interface Props {
   tutorId: string;
 }
 
-function Form({ tutorId }: IProps) {
+function Form({ tutorId }: Props) {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<CreateClass>({
     resolver: yupResolver(schema),
@@ -40,46 +49,79 @@ function Form({ tutorId }: IProps) {
 
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [unavailableHours, setUnavailableHours] = useState<string[]>([]);
   const { id: studentId } = getDecodedToken();
 
+  const [getTutorClasses, { data }] = useLazyQuery(GET_TUTOR_CLASSES, {
+    variables: { tutorId },
+  });
+  const nextClasses = data?.getTutorClasses;
+
   const [createClass, { loading }] = useMutation(CREATE_CLASS, {
-    onCompleted: (resp) => {
+    onCompleted: () => {
       setShowSuccess(true);
+      getTutorClasses();
+      reset({ init: 'selecione', end: 'selecione', topic: '' });
     },
     onError: () => {
       setShowError(true);
     },
   });
 
-  const onSubmit = (data: CreateClass) => {
+  useEffect(() => {
+    getTutorClasses();
+  }, []);
+
+  const onSubmit = (formData: CreateClass) => {
     setShowError(false);
     setShowSuccess(false);
     createClass({
       variables: {
         classInput: {
-          ...data,
+          ...formData,
           tutorId,
           studentId,
-          date: currentDate,
+          date: selectedDate,
         },
       },
     });
   };
 
-  const handleDate = (selectedDate: any) => {
-    setCurrentDate(selectedDate);
+  const checkUnavailableHours = (date: Date) => {
+    const listUnavailableHours = nextClasses?.reduce((acc: string[], el: Classes) => {
+      const isSameDate = new Date(el.date).toDateString() === new Date(date).toDateString();
+      if (isSameDate) {
+        acc.push(el.init);
+        acc.push(el.end);
+      }
+      return acc;
+    }, []);
+
+    setUnavailableHours(listUnavailableHours);
   };
+
+  const handleDate = (date: Date) => {
+    setSelectedDate(date);
+    checkUnavailableHours(date);
+  };
+
+  useEffect(() => {
+    checkUnavailableHours(selectedDate);
+  }, [data]);
+
+  const currentDate = new Date();
+  const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <WrapperForm>
-        <Calendar locale={pt} onChange={handleDate} />
+        <Calendar date={selectedDate} minDate={currentDate} maxDate={maxDate} locale={pt} onChange={handleDate} />
         <div>
           <div>
             <WrapperHour>
-              <HourSelect label="Início" control={control} name={'init'} />
-              <HourSelect label="Fim" control={control} name={'end'} />
+              <HourSelect unavailableHours={unavailableHours} label="Início" control={control} name={'init'} />
+              <HourSelect unavailableHours={unavailableHours} label="Fim" control={control} name={'end'} />
             </WrapperHour>
           </div>
           <div>

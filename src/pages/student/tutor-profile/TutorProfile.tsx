@@ -1,8 +1,7 @@
 import { useQuery } from '@apollo/client';
 
-import { Button, Container, Typography, Avatar, CircularProgress } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Heart from '@mui/icons-material/FavoriteBorder';
+import { Container, Typography, Avatar, CircularProgress } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 import { loader } from 'graphql.macro';
 
 import Header from '@components/Header/Header';
