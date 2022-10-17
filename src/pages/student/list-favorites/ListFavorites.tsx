@@ -9,7 +9,7 @@ import { loader } from 'graphql.macro';
 
 import { CardsWrapper, SkeletonWrapper } from './styles';
 
-const GET_TUTORS = loader('../../../queries/getTutors.gql');
+const GET_FAVORITES = loader('../../../queries/getFavorites.gql');
 
 interface Tutor {
   id: number;
@@ -22,9 +22,12 @@ interface Tutor {
   isFavorite: boolean;
 }
 
-function ListTutors() {
+function ListFavorites() {
   const { id: studentId } = getDecodedToken();
-  const { data } = useQuery(GET_TUTORS, { variables: { studentId: studentId?.toString() } });
+  const { data } = useQuery(GET_FAVORITES, {
+    variables: { studentId: studentId?.toString() },
+    fetchPolicy: 'network-only',
+  });
 
   return (
     <>
@@ -36,11 +39,17 @@ function ListTutors() {
       />
       <Container>
         <Typography variant="h4" mt={6} mb={5} gutterBottom>
-          Encontre seu professor
+          Lista de professores favoritos
         </Typography>
         <CardsWrapper>
           {data ? (
-            data?.getTutors.map((tutor: Tutor) => <TutorCard key={tutor.id} data={tutor} studentId={studentId} />)
+            data?.getFavorites.length > 0 ? (
+              data?.getFavorites.map((tutor: Tutor) => (
+                <TutorCard key={tutor.id} data={tutor} studentId={studentId} showFavorite={false} />
+              ))
+            ) : (
+              'Nenhum professor favorito encontrado'
+            )
           ) : (
             <SkeletonWrapper>
               <Skeleton variant="rectangular" height={180} />
@@ -53,4 +62,4 @@ function ListTutors() {
   );
 }
 
-export default ListTutors;
+export default ListFavorites;

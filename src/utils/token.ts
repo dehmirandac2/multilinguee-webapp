@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 interface DecodedToken {
-  id?: string;
+  id?: number;
 }
 
 const getDecodedToken = () => {

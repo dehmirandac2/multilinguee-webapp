@@ -11,16 +11,18 @@ import NextClass from '@components/NextClass';
 import getDecodedToken from '@utils/token';
 
 import { WrapperProfile, Navigation, WrapperHeader } from './styles';
+import Favorite from '@components/Favorite';
 
 const GET_TUTOR = loader('../../../queries/getTutor.gql');
 
 function TutorProfile() {
-  const navigate = useNavigate();
   const paths = useLocation().pathname.split('/');
   const id = paths[paths.length - 1];
   const { id: studentId } = getDecodedToken();
 
-  const { loading, data } = useQuery(GET_TUTOR, { variables: { tutorInput: { tutorId: id, studentId } } });
+  const { loading, data } = useQuery(GET_TUTOR, {
+    variables: { tutorInput: { tutorId: id, studentId: studentId?.toString() } },
+  });
 
   return (
     <>
@@ -43,9 +45,12 @@ function TutorProfile() {
                 </Typography>
               </WrapperProfile>
               <Navigation>
-                <Button startIcon={<Heart />} variant="contained" size="large" onClick={() => navigate('/favorites')}>
-                  Adicionar aos favoritos
-                </Button>
+                <Favorite
+                  asButton
+                  isFavorite={data.getTutor.isFavorite}
+                  tutorId={data.getTutor.id}
+                  studentId={studentId}
+                />
               </Navigation>
             </WrapperHeader>
             <div>

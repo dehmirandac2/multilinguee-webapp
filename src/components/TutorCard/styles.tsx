@@ -1,19 +1,5 @@
 import styled from 'styled-components';
-import { Rating, Card as MuiCard, CardActions as MuiCardActions } from '@mui/material';
-
-export const StyledRating = styled(Rating)({
-  '& .MuiRating-iconFilled': {
-    color: '#ff6d75',
-  },
-  '& .MuiRating-iconHover': {
-    color: '#ff3d47',
-  },
-  '&&': {
-    position: 'absolute',
-    top: '10px',
-    right: '10px',
-  },
-});
+import { Card as MuiCard, CardActions as MuiCardActions } from '@mui/material';
 
 export const WrapperTitle = styled.div`
   display: flex;

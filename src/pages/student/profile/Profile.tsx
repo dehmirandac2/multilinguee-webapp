@@ -29,7 +29,7 @@ function Profile() {
           </Typography>
         </WrapperProfile>
         <Navigation>
-          <Button startIcon={<Heart />} variant="contained" size="large" onClick={() => navigate('/favorites')}>
+          <Button startIcon={<Heart />} variant="contained" size="large" onClick={() => navigate('/student/favorites')}>
             Professores favoritos
           </Button>
           <Button startIcon={<Book />} variant="contained" size="large" onClick={() => navigate('/classes')}>
