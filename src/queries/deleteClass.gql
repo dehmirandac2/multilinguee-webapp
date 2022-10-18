@@ -1,0 +1,3 @@
+mutation Mutation($classId: String) {
+  deleteClass(classId: $classId)
+}

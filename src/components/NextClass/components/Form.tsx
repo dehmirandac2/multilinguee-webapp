@@ -135,7 +135,12 @@ function Form({ tutorId }: Props) {
       <Snackbar open={showError} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
         <Alert severity="error">Erro ao agendar a aula. Tente novamente</Alert>
       </Snackbar>
-      <Snackbar open={showSuccess} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Snackbar
+        open={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
         <Alert severity="success">Aula agendada com sucesso</Alert>
       </Snackbar>
     </form>

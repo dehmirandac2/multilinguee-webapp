@@ -32,11 +32,7 @@ function ListFavorites() {
   return (
     <>
       <Header typeUser="student" />
-      <HeaderAlert
-        text="Sua próxima aula será no dia: 20/08/2022 (sexta-feira)"
-        buttonText="Gerenciar aula"
-        onClick={() => {}}
-      />
+      <HeaderAlert />
       <Container>
         <Typography variant="h4" mt={6} mb={5} gutterBottom>
           Lista de professores favoritos
