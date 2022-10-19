@@ -14,6 +14,7 @@ import getDecodedToken from '@utils/token';
 
 import { Button, WrapperHour, WrapperForm } from '../styles';
 import { schema } from './validation';
+import { defaultHoursList } from '@components/HourSelect/HourSelect';
 
 const CREATE_CLASS = loader('../../../queries/createClass.gql');
 const GET_TUTOR_CLASSES = loader('../../../queries/getTutorClasses.gql');
@@ -42,16 +43,28 @@ function Form({ tutorId }: Props) {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CreateClass>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      init: '',
+      end: '',
+    },
   });
 
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [unavailableHours, setUnavailableHours] = useState<string[]>([]);
+  const [unavailableInitHours, setUnavailableInitHours] = useState<string[]>([]);
+  const [unavailableEndHours, setUnavailableEndHours] = useState<string[]>([]);
+  const [selectedInitHour, setSelectedInitHour] = useState<string[]>([]);
+
   const { id: studentId } = getDecodedToken();
+
+  const resetForm = () => {
+    reset({ init: '', end: '', topic: '' });
+  };
 
   const [getTutorClasses, { data }] = useLazyQuery(GET_TUTOR_CLASSES, {
     variables: { tutorId },
@@ -62,7 +75,7 @@ function Form({ tutorId }: Props) {
     onCompleted: () => {
       setShowSuccess(true);
       getTutorClasses();
-      reset({ init: 'selecione', end: 'selecione', topic: '' });
+      resetForm();
     },
     onError: () => {
       setShowError(true);
@@ -88,8 +101,8 @@ function Form({ tutorId }: Props) {
     });
   };
 
-  const checkUnavailableHours = (date: Date) => {
-    const listUnavailableHours = nextClasses?.reduce((acc: string[], el: Classes) => {
+  const getAlreadyReservedHours = (date: Date) => {
+    return nextClasses?.reduce((acc: string[], el: Classes) => {
       const isSameDate = new Date(el.date).toDateString() === new Date(date).toDateString();
       if (isSameDate) {
         acc.push(el.init);
@@ -97,18 +110,38 @@ function Form({ tutorId }: Props) {
       }
       return acc;
     }, []);
+  };
 
-    setUnavailableHours(listUnavailableHours);
+  const getPastHours = (date: Date) => {
+    const hour = new Date(date).getHours();
+    const formattedHour = `${hour}:00`;
+    return [...defaultHoursList].splice(0, defaultHoursList.indexOf(formattedHour) + 1);
+  };
+
+  const checkUnavailableHours = (date: Date) => {
+    const reservedHours = getAlreadyReservedHours(date) || [];
+    const pastHours = getPastHours(date) || [];
+    setUnavailableInitHours([...reservedHours, ...pastHours]);
+    setUnavailableEndHours([...reservedHours, ...pastHours]);
   };
 
   const handleDate = (date: Date) => {
     setSelectedDate(date);
     checkUnavailableHours(date);
+    resetForm();
+  };
+
+  const handleChangeInitHour = (e: any) => {
+    const hour = e.target.value;
+
+    const unavailable = [...defaultHoursList].splice(0, defaultHoursList.indexOf(hour) + 1);
+    setSelectedInitHour(unavailable);
+    setValue('init', hour);
   };
 
   useEffect(() => {
     checkUnavailableHours(selectedDate);
-  }, [data]);
+  }, [nextClasses]);
 
   const currentDate = new Date();
   const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
@@ -120,8 +153,20 @@ function Form({ tutorId }: Props) {
         <div>
           <div>
             <WrapperHour>
-              <HourSelect unavailableHours={unavailableHours} label="Início" control={control} name={'init'} />
-              <HourSelect unavailableHours={unavailableHours} label="Fim" control={control} name={'end'} />
+              <HourSelect
+                onChange={handleChangeInitHour}
+                unavailableHours={unavailableInitHours}
+                label="Início"
+                control={control}
+                name="init"
+              />
+              <HourSelect
+                onChange={(e) => setValue('end', e.target.value)}
+                unavailableHours={[...unavailableEndHours, ...selectedInitHour]}
+                label="Fim"
+                control={control}
+                name="end"
+              />
             </WrapperHour>
           </div>
           <div>

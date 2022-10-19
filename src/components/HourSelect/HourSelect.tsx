@@ -7,30 +7,31 @@ interface Props {
   name: string;
   label?: string;
   unavailableHours?: string[];
+  onChange?: (e: any) => void;
 }
 
-function HourSelect({ control, name, label, unavailableHours }: Props) {
-  const defaultHoursList = [
-    '06:00am',
-    '07:00am',
-    '08:00am',
-    '09:00am',
-    '10:00am',
-    '11:00am',
-    '12:00am',
-    '01:00pm',
-    '02:00pm',
-    '03:00pm',
-    '04:00pm',
-    '05:00pm',
-    '06:00pm',
-    '07:00pm',
-    '08:00pm',
-    '09:00pm',
-    '10:00pm',
-    '11:00pm',
-  ];
+export const defaultHoursList = [
+  '06:00',
+  '07:00',
+  '08:00',
+  '09:00',
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+  '18:00',
+  '19:00',
+  '20:00',
+  '21:00',
+  '22:00',
+  '23:00',
+];
 
+function HourSelect({ control, name, label, unavailableHours, onChange }: Props) {
   const checkIsDisabled = (hour: string) => {
     const hourNotAvailable = unavailableHours && unavailableHours.indexOf(hour) !== -1;
 
@@ -38,7 +39,7 @@ function HourSelect({ control, name, label, unavailableHours }: Props) {
   };
 
   return (
-    <Select control={control} label={label} name={name}>
+    <Select control={control} label={label} name={name} onChange={(el) => onChange?.(el)}>
       <MenuItem disabled value="selecione">
         Selecione
       </MenuItem>
