@@ -10,9 +10,18 @@ import HeaderAlert from '@components/Header/HeaderAlert';
 import NextClass from '@components/NextClass';
 
 import { WrapperProfile, Navigation } from './styles';
+import { useQuery } from '@apollo/client';
+import getDecodedToken from '@utils/token';
+import { loader } from 'graphql.macro';
+
+const GET_USER = loader('../../../queries/getUser.gql');
 
 function Profile() {
   const navigate = useNavigate();
+
+  const { id: studentId } = getDecodedToken();
+
+  const { data } = useQuery(GET_USER, { variables: { studentId: studentId?.toString() } });
 
   return (
     <>
@@ -24,7 +33,7 @@ function Profile() {
             <PersonIcon />
           </Avatar>
           <Typography variant="h5" mt={6} mb={5} gutterBottom>
-            Marina Ferreira
+            {data?.getUser?.[0]?.name} {data?.getUser?.[0]?.surname}
           </Typography>
         </WrapperProfile>
         <Navigation>
