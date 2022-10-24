@@ -1,14 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loader } from 'graphql.macro';
 
 import Input from '@components/Form/Input';
 
 import { schema } from './validation';
 import { FormWrapper, Title, Link, Wrapper } from './styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 
 const LOGIN = loader('../../../../queries/login.gql');
@@ -28,6 +28,8 @@ function Form() {
   });
 
   const [showError, setShowError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const navigate = useNavigate();
 
   const [login, { loading }] = useMutation(LOGIN, {
@@ -49,6 +51,17 @@ function Form() {
     login({ variables: data });
   };
 
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const userCreatedSuccess = queryParams.get('user-created-success');
+
+  useEffect(() => {
+    if (userCreatedSuccess) {
+      setShowSuccess(true);
+      queryParams.delete('user-created-success');
+    }
+  }, [userCreatedSuccess]);
+
   return (
     <Wrapper>
       <Title variant="h4">Bem-vindo ao Multilinguee!</Title>
@@ -62,8 +75,21 @@ function Form() {
           </Button>
         </FormWrapper>
       </form>
-      <Snackbar open={showError} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+      <Snackbar
+        open={showError}
+        onClose={() => setShowError(false)}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
         <Alert severity="error">Email e/ou senha errado(s). Tente novamente</Alert>
+      </Snackbar>
+      <Snackbar
+        open={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="success">Usuário criado com sucesso</Alert>
       </Snackbar>
     </Wrapper>
   );
