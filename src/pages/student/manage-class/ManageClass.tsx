@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loader } from 'graphql.macro';
 import {
   Container,
@@ -22,13 +22,14 @@ import NextClass from '@components/NextClass';
 import getDecodedToken from '@utils/token';
 import { Button, WrapperHeader, Navigation, WrapperProfile } from './styles';
 
-const GET_STUDENT_NEXT_CLASS = loader('../../../queries/getStudentNextClass.gql');
+const GET_CLASS_BY_ID = loader('../../../queries/getClassById.gql');
 const DELETE_CLASS = loader('../../../queries/deleteClass.gql');
 
 function ManageClass() {
   const navigate = useNavigate();
+  const paths = useLocation().pathname.split('/');
+  const classId = paths[paths.length - 1];
 
-  const { id: studentId } = getDecodedToken();
   const [showDialog, setShowDialog] = useState(false);
 
   const handleClickOpen = () => {
@@ -39,14 +40,14 @@ function ManageClass() {
     setShowDialog(false);
   };
 
-  const { data, loading } = useQuery(GET_STUDENT_NEXT_CLASS, {
-    variables: { studentId: studentId?.toString() },
+  const { data, loading } = useQuery(GET_CLASS_BY_ID, {
+    variables: { id: classId },
   });
 
-  const { getStudentNextClass } = data || {};
+  const { getClassById } = data || {};
 
   const [deleteClass] = useMutation(DELETE_CLASS, {
-    variables: { classId: getStudentNextClass?.[0]?.id },
+    variables: { classId: getClassById?.[0]?.id },
     onCompleted: () => {
       navigate('/student/list-tutors?delete-class-success=true');
     },
@@ -56,7 +57,7 @@ function ManageClass() {
     deleteClass();
   };
 
-  const { name, surname, id, date, init, end, topic } = getStudentNextClass?.[0] || {};
+  const { name, surname, id, date, init, end, topic } = getClassById?.[0] || {};
 
   return (
     <>
@@ -87,7 +88,7 @@ function ManageClass() {
             </WrapperHeader>
 
             <NextClass
-              tutorId={getStudentNextClass?.[0]?.tutorId}
+              tutorId={getClassById?.[0]?.tutorId}
               currentClass={{
                 id,
                 date,

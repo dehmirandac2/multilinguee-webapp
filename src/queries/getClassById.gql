@@ -1,0 +1,12 @@
+query GetClassById($id: ID!) {
+  getClassById(id: $id) {
+    id
+    date
+    init
+    end
+    topic
+    name
+    surname
+    tutorId
+  }
+}

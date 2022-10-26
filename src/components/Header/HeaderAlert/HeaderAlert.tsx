@@ -26,7 +26,11 @@ function HeaderAlert() {
           <Typography color="white" mr={2}>
             Sua próxima aula será no dia: {new Date(getStudentNextClass?.[0]?.date)?.toLocaleDateString('pt-BR')}
           </Typography>
-          <Button variant="contained" size="small" onClick={() => navigate('/student/manage-class')}>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => navigate(`/student/manage-class/${getStudentNextClass?.[0]?.id}`)}
+          >
             Gerenciar aula
           </Button>
         </Container>

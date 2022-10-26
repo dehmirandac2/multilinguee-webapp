@@ -33,7 +33,7 @@ export default function MainRoutes() {
         <Route path="/student/edit-user" element={accessControl(<EditUser />)}></Route>
         <Route path="/student/favorites" element={accessControl(<ListFavorites />)}></Route>
         <Route path="/student/tutor-profile/:id" element={accessControl(<StudentTutorProfile />)}></Route>
-        <Route path="/student/manage-class" element={accessControl(<ManageClass />)}></Route>
+        <Route path="/student/manage-class/:id" element={accessControl(<ManageClass />)}></Route>
 
         <Route path="/tutor/profile" element={accessControl(<TutorProfile />)} />
         <Route path="*" element={<Page404 />} />
