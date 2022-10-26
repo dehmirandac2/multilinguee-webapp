@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { loader } from 'graphql.macro';
 
 import Input from '@components/Form/Input';
@@ -52,6 +52,8 @@ function Form() {
   };
 
   const { search } = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const queryParams = new URLSearchParams(search);
   const userCreatedSuccess = queryParams.get('user-created-success');
 
@@ -59,6 +61,7 @@ function Form() {
     if (userCreatedSuccess) {
       setShowSuccess(true);
       queryParams.delete('user-created-success');
+      setSearchParams(queryParams);
     }
   }, [userCreatedSuccess]);
 

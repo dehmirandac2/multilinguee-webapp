@@ -5,5 +5,9 @@ query GetStudentNextClass($studentId: ID!) {
     init
     end
     topic
+    about
+    name
+    surname
+    tutorId
   }
 }

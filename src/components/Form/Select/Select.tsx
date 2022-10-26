@@ -1,6 +1,6 @@
 import { forwardRef, ReactNode } from 'react';
 import { Controller } from 'react-hook-form';
-import { InputLabel, Select as MuiSelect } from '@mui/material';
+import { InputLabel, Select as MuiSelect, FormHelperText, FormControl } from '@mui/material';
 
 interface Props {
   control: any;
@@ -14,8 +14,8 @@ const Select = forwardRef(({ control, name, label, children, onChange }: Props) 
   <Controller
     name={name}
     control={control}
-    render={({ field: { onChange: onChangeController, ...rest } }) => (
-      <div>
+    render={({ field: { onChange: onChangeController, ...rest }, fieldState }) => (
+      <FormControl error={!!fieldState?.error?.message}>
         <InputLabel>{label}</InputLabel>
         <MuiSelect
           style={{ width: '100%' }}
@@ -27,7 +27,8 @@ const Select = forwardRef(({ control, name, label, children, onChange }: Props) 
         >
           {children}
         </MuiSelect>
-      </div>
+        {!!fieldState?.error?.message && <FormHelperText>{fieldState?.error?.message}</FormHelperText>}
+      </FormControl>
     )}
   />
 ));

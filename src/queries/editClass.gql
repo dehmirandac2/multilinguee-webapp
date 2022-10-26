@@ -1,0 +1,3 @@
+mutation editClass($classEditInput: ClassEditInput!) {
+  editClass(classEditInput: $classEditInput)
+}

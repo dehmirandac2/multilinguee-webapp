@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-
+import { useNavigate } from 'react-router-dom';
+import { loader } from 'graphql.macro';
 import {
   Container,
   Typography,
@@ -9,15 +11,16 @@ import {
   DialogContent,
   DialogActions,
   DialogContentText,
+  Avatar,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { loader } from 'graphql.macro';
+import PersonIcon from '@mui/icons-material/Person';
 
 import Header from '@components/Header/Header';
 import HeaderAlert from '@components/Header/HeaderAlert';
+import NextClass from '@components/NextClass';
+
 import getDecodedToken from '@utils/token';
-import { Button } from './styles';
-import { useState } from 'react';
+import { Button, WrapperHeader, Navigation, WrapperProfile } from './styles';
 
 const GET_STUDENT_NEXT_CLASS = loader('../../../queries/getStudentNextClass.gql');
 const DELETE_CLASS = loader('../../../queries/deleteClass.gql');
@@ -53,6 +56,8 @@ function ManageClass() {
     deleteClass();
   };
 
+  const { name, surname, id, date, init, end, topic } = getStudentNextClass?.[0] || {};
+
   return (
     <>
       <Header typeUser="student" />
@@ -62,27 +67,35 @@ function ManageClass() {
           <CircularProgress />
         ) : (
           <>
-            <div>
-              <Typography variant="h4" mt={6} mb={3} gutterBottom>
-                Detalhes da sua próxima aula
-              </Typography>
-              <Typography mb={2} gutterBottom>
-                Dia: {new Date(getStudentNextClass?.[0]?.date)?.toLocaleDateString('pt-BR')}
-              </Typography>
-              <Typography mb={2} gutterBottom>
-                Hora de início: {getStudentNextClass?.[0]?.init}
-              </Typography>
-              <Typography mb={2} gutterBottom>
-                Hora do término: {getStudentNextClass?.[0]?.end}
-              </Typography>
-            </div>
-            <Button variant="contained" color="secondary" size="large" onClick={() => navigate('/student/list-tutors')}>
-              Ok
-            </Button>
+            <Typography variant="h4" mt={6} mb={3} gutterBottom>
+              Gerenciar aula com:
+            </Typography>
+            <WrapperHeader>
+              <WrapperProfile>
+                <Avatar sx={{ width: 56, height: 56 }}>
+                  <PersonIcon />
+                </Avatar>
+                <Typography variant="h5" mt={6} mb={5} gutterBottom>
+                  {name} {surname}
+                </Typography>
+              </WrapperProfile>
+              <Navigation>
+                <Button variant="contained" size="large" onClick={handleClickOpen}>
+                  Cancelar aula
+                </Button>
+              </Navigation>
+            </WrapperHeader>
 
-            <Button variant="text" size="large" onClick={handleClickOpen}>
-              Preciso cancelar
-            </Button>
+            <NextClass
+              tutorId={getStudentNextClass?.[0]?.tutorId}
+              currentClass={{
+                id,
+                date,
+                init,
+                end,
+                topic,
+              }}
+            />
 
             <Dialog open={showDialog} onClose={handleClose}>
               <DialogTitle id="alert-dialog-title">{'Cancelar aula'}</DialogTitle>

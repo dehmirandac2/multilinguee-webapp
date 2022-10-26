@@ -17,6 +17,7 @@ import { schema } from './validation';
 import { defaultHoursList } from '@components/HourSelect/HourSelect';
 
 const CREATE_CLASS = loader('../../../queries/createClass.gql');
+const EDIT_CLASS = loader('../../../queries/editClass.gql');
 const GET_TUTOR_CLASSES = loader('../../../queries/getTutorClasses.gql');
 
 interface CreateClass {
@@ -34,11 +35,20 @@ interface Classes {
   end: string;
 }
 
-interface Props {
-  tutorId: string;
+interface Class {
+  id: string;
+  date: Date;
+  init: string;
+  end: string;
+  topic: string;
 }
 
-function Form({ tutorId }: Props) {
+interface Props {
+  tutorId: string;
+  currentClass?: Class;
+}
+
+function Form({ tutorId, currentClass }: Props) {
   const {
     handleSubmit,
     control,
@@ -47,15 +57,12 @@ function Form({ tutorId }: Props) {
     formState: { errors },
   } = useForm<CreateClass>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      init: '',
-      end: '',
-    },
+    defaultValues: currentClass,
   });
 
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(currentClass?.date ? new Date(currentClass?.date) : new Date());
   const [unavailableInitHours, setUnavailableInitHours] = useState<string[]>([]);
   const [unavailableEndHours, setUnavailableEndHours] = useState<string[]>([]);
   const [selectedInitHour, setSelectedInitHour] = useState<string[]>([]);
@@ -82,6 +89,15 @@ function Form({ tutorId }: Props) {
     },
   });
 
+  const [editClass, { loading: loadingEdit }] = useMutation(EDIT_CLASS, {
+    onCompleted: () => {
+      setShowSuccess(true);
+    },
+    onError: () => {
+      setShowError(true);
+    },
+  });
+
   useEffect(() => {
     getTutorClasses();
   }, []);
@@ -89,14 +105,27 @@ function Form({ tutorId }: Props) {
   const onSubmit = (formData: CreateClass) => {
     setShowError(false);
     setShowSuccess(false);
+
+    const finalData = {
+      ...formData,
+      date: selectedDate,
+    };
+
+    if (currentClass) {
+      editClass({
+        variables: {
+          classEditInput: {
+            ...finalData,
+            id: currentClass.id,
+          },
+        },
+      });
+      return;
+    }
+
     createClass({
       variables: {
-        classInput: {
-          ...formData,
-          tutorId,
-          studentId,
-          date: selectedDate,
-        },
+        classInput: { ...finalData, tutorId, studentId },
       },
     });
   };
@@ -172,8 +201,8 @@ function Form({ tutorId }: Props) {
           <div>
             <TextArea control={control} id="topic" label="Em que gostaria de trabalhar" name="topic" />
           </div>
-          <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading}>
-            Agendar aula
+          <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading || loadingEdit}>
+            {currentClass ? 'Reagendar aula' : 'Agendar aula'}
           </Button>
         </div>
       </WrapperForm>
@@ -186,7 +215,7 @@ function Form({ tutorId }: Props) {
         autoHideDuration={6000}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert severity="success">Aula agendada com sucesso</Alert>
+        <Alert severity="success">{currentClass ? 'Aula alterada com sucesso' : 'Aula agendada com sucesso'}</Alert>
       </Snackbar>
     </form>
   );
