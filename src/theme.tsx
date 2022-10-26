@@ -16,6 +16,9 @@ export default createTheme({
           textTransform: 'none',
           color: '#FFFFFF',
         },
+        text: {
+          color: '#272941',
+        },
       },
     },
     MuiLink: {

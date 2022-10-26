@@ -7,40 +7,42 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loader } from 'graphql.macro';
 
 import Input from '@components/Form/Input';
-import Radio from '@components/Form/Radio';
 
-import { Subtitle, Button } from './styles';
+import { Button } from './styles';
 import { schema } from './validation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import getDecodedToken from '@utils/token';
+import { useQuery } from '@apollo/client';
 
-const CREATE_USER = loader('../../../../queries/createUser.gql');
+const EDIT_USER = loader('../../../../queries/editUser.gql');
+const GET_USER = loader('../../../../queries/getUser.gql');
 
-interface CreateUser {
+interface EditUser {
+  id: string;
   name: string;
   surname: string;
   email: string;
-  password: string;
-  type: 'student' | 'tutor';
 }
 
 function Form() {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<CreateUser>({
-    defaultValues: {
-      type: 'student',
-    },
+  const { id: studentId } = getDecodedToken();
+  const { data: { getUser } = {} } = useQuery(GET_USER, { variables: { studentId: studentId?.toString() } });
+
+  const { handleSubmit, control, reset, formState } = useForm<EditUser>({
     resolver: yupResolver(schema),
   });
 
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (getUser) {
+      const { name, surname, email } = getUser[0];
+      reset({ name, surname, email });
+    }
+  }, [getUser]);
 
-  const [createUser, { loading }] = useMutation(CREATE_USER, {
+  const [editUser, { loading }] = useMutation(EDIT_USER, {
     onCompleted: (resp) => {
       setShowSuccess(true);
     },
@@ -49,12 +51,16 @@ function Form() {
     },
   });
 
-  const onSubmit = (data: CreateUser) => {
+  const onSubmit = (data: EditUser) => {
     setShowError(false);
     setShowSuccess(false);
-    createUser({
+    const finalData = {
+      ...data,
+      id: studentId,
+    };
+    editUser({
       variables: {
-        userInput: data,
+        userInput: finalData,
       },
     });
   };
@@ -62,12 +68,11 @@ function Form() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input control={control} label="Nome" name="name" />
-        <Input control={control} label="Sobrenome" name="surname" />
+        <Input control={control} label="Nome" name="name" InputLabelProps={{ shrink: true }} />
+        <Input control={control} label="Sobrenome" name="surname" InputLabelProps={{ shrink: true }} />
       </div>
       <div>
-        <Input control={control} label="Email" name="email" />
-        <Input control={control} label="Senha" name="password" type="password" />
+        <Input control={control} label="Email" name="email" InputLabelProps={{ shrink: true }} />
       </div>
       <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading}>
         Salvar
@@ -76,7 +81,7 @@ function Form() {
         <Alert severity="error">Erro ao atualizar o perfil. Tente novamente</Alert>
       </Snackbar>
       <Snackbar open={showSuccess} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-        <Alert severity="error">Perfil atualizado com sucesso</Alert>
+        <Alert severity="success">Perfil atualizado com sucesso</Alert>
       </Snackbar>
     </form>
   );

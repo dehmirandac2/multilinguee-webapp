@@ -1,11 +1,11 @@
 import { CardContent, Typography, Button, Avatar, Rating, CardHeader } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { StyledRating, WrapperRating, Card, CardActions, WrapperTitle } from './styles';
+import { WrapperRating, Card, CardActions, WrapperTitle } from './styles';
+import Favorite from '@components/Favorite';
 
 interface ITutorCard {
+  studentId?: number;
   data: {
     id: number;
     name: string;
@@ -14,10 +14,16 @@ interface ITutorCard {
     languages: string;
     stars: number;
     totalReviews: number;
+    isFavorite: boolean;
   };
+  showFavorite?: boolean;
 }
 
-function TutorCard({ data: { id, name, surname, about, stars, totalReviews, languages } }: ITutorCard) {
+function TutorCard({
+  data: { id, name, surname, about, stars, totalReviews, languages, isFavorite },
+  studentId,
+  showFavorite = true,
+}: ITutorCard) {
   const navigate = useNavigate();
 
   return (
@@ -48,13 +54,7 @@ function TutorCard({ data: { id, name, surname, about, stars, totalReviews, lang
             </WrapperRating>
           }
         />
-
-        <StyledRating
-          max={1}
-          defaultValue={0}
-          icon={<FavoriteIcon fontSize="inherit" />}
-          emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-        />
+        {showFavorite && <Favorite isFavorite={isFavorite} tutorId={id} studentId={studentId} />}
 
         <Typography sx={{ fontSize: 14 }} color="text.secondary">
           {about}

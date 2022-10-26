@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { FormControlLabel, Radio as MuiRadio } from '@mui/material';
+import { Alert, FormControlLabel, Radio as MuiRadio, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { useMutation } from '@apollo/client';
@@ -11,6 +11,7 @@ import Radio from '@components/Form/Radio';
 
 import { Subtitle, Button } from './styles';
 import { schema } from './validation';
+import { useState } from 'react';
 
 const CREATE_USER = loader('../../../../queries/createUser.gql');
 
@@ -23,11 +24,8 @@ interface CreateUser {
 }
 
 function Form() {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<CreateUser>({
+  const [showError, setShowError] = useState(false);
+  const { handleSubmit, control, formState } = useForm<CreateUser>({
     defaultValues: {
       type: 'student',
     },
@@ -41,8 +39,11 @@ function Form() {
       if (resp.createUser.type === 'tutor') {
         navigate(`/add-tutor-info/${resp.createUser.id}`);
       } else {
-        navigate('/login');
+        navigate('/login?user-created-success=true');
       }
+    },
+    onError() {
+      setShowError(true);
     },
   });
 
@@ -74,6 +75,14 @@ function Form() {
       <Button variant="contained" color="secondary" size="large" type="submit" disabled={loading}>
         Cadastrar
       </Button>
+      <Snackbar
+        onClose={() => setShowError(false)}
+        open={showError}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <Alert severity="error">Email já cadastrado. Tente outro</Alert>
+      </Snackbar>
     </form>
   );
 }

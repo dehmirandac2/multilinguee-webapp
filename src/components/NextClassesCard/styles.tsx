@@ -9,16 +9,6 @@ export const WrapperTitle = styled.div`
   }
 `;
 
-export const WrapperRating = styled.div`
-  display: flex;
-  align-items: center;
-  & > p {
-    margin-left: 5px;
-    margin-bottom: 0;
-    padding-top: 1px;
-  }
-`;
-
 export const Card = styled(MuiCard)`
   && {
     position: relative;

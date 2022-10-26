@@ -3,11 +3,20 @@ import { Typography } from '@mui/material';
 import { CardTitleWrapper, Card, CardContent } from './styles';
 import Form from './components/Form';
 
-interface IProps {
-  tutorId: string;
+interface Class {
+  id: string;
+  date: Date;
+  init: string;
+  end: string;
+  topic: string;
 }
 
-function NextClass({ tutorId }: IProps) {
+interface IProps {
+  tutorId: string;
+  currentClass?: Class;
+}
+
+function NextClass({ tutorId, currentClass }: IProps) {
   return (
     <div>
       <Typography variant="h4" mt={6} mb={5} gutterBottom>
@@ -24,7 +33,7 @@ function NextClass({ tutorId }: IProps) {
         </CardTitleWrapper>
 
         <CardContent>
-          <Form tutorId={tutorId} />
+          <Form tutorId={tutorId} currentClass={currentClass} />
         </CardContent>
       </Card>
     </div>

@@ -1,5 +1,5 @@
-query getTutors {
-  getTutors {
+query getTutors($studentId: String) {
+  getTutors(studentId: $studentId) {
     id
     name
     surname

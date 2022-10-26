@@ -1,7 +1,8 @@
-query getUser($id: ID!) {
-  getUser(id: $id) {
+query getUser($studentId: String) {
+  getUser(studentId: $studentId) {
     id
     name
     surname
+    email
   }
 }

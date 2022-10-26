@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import PersonIcon from '@mui/icons-material/Person';
+
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { Wrapper, Container, WrapperButtons, Avatar } from './styles';
+import getDecodedToken from '@utils/token';
 
 type Config = {
   student: {
@@ -64,7 +67,9 @@ function Header({ typeUser }: { typeUser: TypeUser }) {
           <IconButton color="secondary" aria-label="logout" component="span" onClick={handleLogout}>
             <LogoutIcon />
           </IconButton>
-          <Avatar onClick={() => navigate(config[typeUser].profileUrl)}>MF</Avatar>
+          <Avatar onClick={() => navigate(config[typeUser].profileUrl)}>
+            <PersonIcon />
+          </Avatar>
         </WrapperButtons>
       </Container>
     </Wrapper>
