@@ -14,6 +14,7 @@ import ListFavorites from './pages/student/list-favorites';
 import ManageClass from './pages/student/manage-class';
 
 import TutorProfile from './pages/tutor/profile';
+import EditTutor from './pages/tutor/edit-user';
 
 import Page404 from './pages/404';
 
@@ -36,6 +37,8 @@ export default function MainRoutes() {
         <Route path="/student/manage-class/:id" element={accessControl(<ManageClass />)}></Route>
 
         <Route path="/tutor/profile" element={accessControl(<TutorProfile />)} />
+        <Route path="/tutor/edit-user" element={accessControl(<EditTutor />)}></Route>
+
         <Route path="*" element={<Page404 />} />
       </Routes>
     </Router>
