@@ -1,5 +1,5 @@
 import { Button, Container, Typography, Avatar, Skeleton } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { loader } from 'graphql.macro';
 
@@ -60,7 +60,7 @@ function Profile() {
           {studentClasses ? (
             studentClasses?.getStudentClasses.length > 0 ? (
               studentClasses?.getStudentClasses.map((classData: any) => (
-                <NextClassesCard key={classData.id} data={classData} studentId={studentId} />
+                <NextClassesCard key={classData.id} data={classData} />
               ))
             ) : (
               'Nenhuma aula agendada'

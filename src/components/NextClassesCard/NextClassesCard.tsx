@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardActions, WrapperTitle } from './styles';
 
 interface ITutorCard {
-  studentId?: number;
   data: {
     id: number;
     name: string;
@@ -15,7 +14,7 @@ interface ITutorCard {
   };
 }
 
-function NextClassesCard({ data: { id, name, surname, date, init, end }, studentId }: ITutorCard) {
+function NextClassesCard({ data: { id, name, surname, date, init, end } }: ITutorCard) {
   const navigate = useNavigate();
 
   return (

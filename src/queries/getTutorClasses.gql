@@ -4,5 +4,8 @@ query GetTutorClasses($tutorId: ID!) {
     date
     init
     end
+    topic
+    name
+    surname
   }
 }
