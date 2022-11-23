@@ -75,6 +75,7 @@ function Form({ tutorId, currentClass }: Props) {
 
   const [getTutorClasses, { data }] = useLazyQuery(GET_TUTOR_CLASSES, {
     variables: { tutorId },
+    fetchPolicy: 'network-only',
   });
   const nextClasses = data?.getTutorClasses;
 
@@ -125,7 +126,7 @@ function Form({ tutorId, currentClass }: Props) {
 
     createClass({
       variables: {
-        classInput: { ...finalData, tutorId, studentId },
+        classInput: { ...finalData, tutorId: Number(tutorId), studentId: Number(studentId) },
       },
     });
   };

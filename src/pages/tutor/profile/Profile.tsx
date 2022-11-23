@@ -21,9 +21,10 @@ function Profile() {
   const navigate = useNavigate();
   const { id: tutorId } = getDecodedToken();
 
-  const { data } = useQuery(GET_USER, { variables: { studentId: tutorId?.toString() } });
+  const { data } = useQuery(GET_USER, { variables: { studentId: tutorId?.toString() }, fetchPolicy: 'network-only' });
   const { data: tutorClasses } = useQuery(GET_TUTOR_CLASSES, {
     variables: { tutorId: tutorId?.toString() },
+    fetchPolicy: 'network-only',
   });
 
   return (

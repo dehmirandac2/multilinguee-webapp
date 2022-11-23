@@ -24,9 +24,10 @@ function Profile() {
 
   const { id: studentId } = getDecodedToken();
 
-  const { data } = useQuery(GET_USER, { variables: { studentId: studentId?.toString() } });
+  const { data } = useQuery(GET_USER, { variables: { studentId: studentId?.toString() }, fetchPolicy: 'network-only' });
   const { data: studentClasses } = useQuery(GET_STUDENT_CLASSES, {
     variables: { studentId: studentId?.toString() },
+    fetchPolicy: 'network-only',
   });
 
   return (

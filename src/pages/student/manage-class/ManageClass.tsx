@@ -42,12 +42,13 @@ function ManageClass() {
 
   const { data, loading } = useQuery(GET_CLASS_BY_ID, {
     variables: { id: classId },
+    fetchPolicy: 'network-only',
   });
 
   const { getClassById } = data || {};
 
-  const [deleteClass] = useMutation(DELETE_CLASS, {
-    variables: { classId: getClassById?.[0]?.id },
+  const [deleteClass, { loading: deletLoading }] = useMutation(DELETE_CLASS, {
+    variables: { classId: Number(getClassById?.[0]?.id) },
     onCompleted: () => {
       navigate('/student/list-tutors?delete-class-success=true');
     },
@@ -104,7 +105,9 @@ function ManageClass() {
                 <DialogContentText id="alert-dialog-description">Você precisa mesmo cancelar a aula?</DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCancelClass}>Cancelar aula</Button>
+                <Button onClick={handleCancelClass} disabled={deletLoading}>
+                  Cancelar aula
+                </Button>
                 <Button onClick={handleClose} autoFocus>
                   Fechar
                 </Button>
