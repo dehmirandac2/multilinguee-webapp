@@ -126,7 +126,7 @@ function Form({ tutorId, currentClass }: Props) {
 
     createClass({
       variables: {
-        classInput: { ...finalData, tutorId, studentId,
+        classInput: { ...finalData, tutorId, studentId },
       },
     });
   };
