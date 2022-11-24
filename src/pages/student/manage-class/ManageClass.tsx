@@ -48,7 +48,7 @@ function ManageClass() {
   const { getClassById } = data || {};
 
   const [deleteClass, { loading: deletLoading }] = useMutation(DELETE_CLASS, {
-    variables: { classId: Number(getClassById?.[0]?.id) },
+    variables: { classId: getClassById?.[0]?.id },
     onCompleted: () => {
       navigate('/student/list-tutors?delete-class-success=true');
     },
