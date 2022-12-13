@@ -22,6 +22,7 @@ function TutorProfile() {
 
   const { loading, data } = useQuery(GET_TUTOR, {
     variables: { tutorInput: { tutorId: id, studentId: studentId?.toString() } },
+    fetchPolicy: 'network-only',
   });
 
   return (
