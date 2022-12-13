@@ -32,7 +32,10 @@ function ListTutors() {
   const [showSuccess, setShowSuccess] = useState(false);
 
   const { id: studentId } = getDecodedToken();
-  const { data } = useQuery(GET_TUTORS, { variables: { studentId: studentId?.toString() } });
+  const { data } = useQuery(GET_TUTORS, {
+    variables: { studentId: studentId?.toString() },
+    fetchPolicy: 'network-only',
+  });
 
   useEffect(() => {
     if (deleteClassSuccess) {

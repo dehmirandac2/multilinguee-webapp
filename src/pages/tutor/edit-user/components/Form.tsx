@@ -26,7 +26,10 @@ interface EditUser {
 
 function Form() {
   const { id: studentId } = getDecodedToken();
-  const { data: { getUser } = {} } = useQuery(GET_USER, { variables: { studentId: studentId?.toString() } });
+  const { data: { getUser } = {} } = useQuery(GET_USER, {
+    variables: { studentId: studentId?.toString() },
+    fetchPolicy: 'network-only',
+  });
 
   const { handleSubmit, control, reset, formState } = useForm<EditUser>({
     resolver: yupResolver(schema),
